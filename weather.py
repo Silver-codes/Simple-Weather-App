@@ -9,8 +9,7 @@ with open("descriptions.json", "r", encoding="utf-8") as file:
 st.title("Weather App")
 
 user_input_city = st.text_input("Enter a city:")
-if user_input_city:
-
+if user_input_city or st.button("Search"):
     geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={user_input_city}&count=5"
     geo_data = requests.get(geo_url).json()
     city_options = []
@@ -26,7 +25,6 @@ if user_input_city:
     longitude = geo_data["results"][chosen_city_index]["longitude"]
 
     response = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current_weather=true&timezone=auto")
-
 
     data = response.json()
     temperature = data["current_weather"]["temperature"]
